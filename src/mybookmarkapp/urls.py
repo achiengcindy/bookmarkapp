@@ -13,9 +13,20 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
+from django.core.urlresolvers import reverse_lazy
+from django.contrib.auth.views import login, logout
+
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^', include('lovebookmarks.urls')),
+    #url(r'^login/$', 'django.contrib.auth.views.login', {'template_name': 'login.html'},check below it must be callable
+    url(r'^login/$', login, {'template_name': 'login.html'}, name='mysite_login'),
+    url(r'^logout/$', logout,{'next_page': reverse_lazy('lovebookmarks_bookmark_list')}, name='mysite_logout'),
+
 ]
+
+
